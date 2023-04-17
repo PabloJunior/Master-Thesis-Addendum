@@ -1,0 +1,224 @@
+#Настройки среды
+env:
+  seed: 1
+
+  num_trains: 5
+
+  width: 25
+ 
+  height: 25
+ 
+  max_cities: 5
+
+  grid: False
+
+  max_rails_between_cities: 8
+ 
+  max_rails_in_cities: 3
+
+  variable_speed: True
+
+  malfunctions:
+
+    enabled: True
+   
+    rate: !!float 0.005
+
+    min_duration: 15
+
+    max_duration: 50
+  rewards:
+    stop_penalty: 2.0
+
+
+observator:
+
+  max_depth: 21
+
+  binary_tree:
+
+    radius: 30
+
+  tree:
+
+    radius: 10
+
+
+predictor:
+  
+  max_depth: 4
+
+policy:
+  
+  type:
+    
+    graph: False
+    
+    decentralized_fov: True
+    
+    tree: False
+    
+    binary_tree: False
+    
+    random: False
+
+
+action_selector:
+  
+  type:
+    
+    eps_greedy: True
+    
+    boltzmann: False
+    
+    random: False
+    
+    greedy: False
+    
+    categorical: False
+
+
+parameter_decay:
+  
+  type:
+    
+    linear: True
+    
+    exponential: False
+    
+    none: False
+  
+  start: !!float 1.0
+  
+  end: !!float 0.01
+  
+  decaying_episodes: !!float 0.70
+
+
+learning:
+  
+  learning_rate: !!float 0.5e-4
+  
+  tau: !!float 1e-3
+  
+  discount: !!float 0.99
+  
+  softmax_bellman:
+    
+    enabled: True
+    
+    temperature: !!float 0.5
+  
+  loss:
+    
+    huber: True
+    
+    mse: False
+  
+  gradient:
+    
+    max_norm: 10
+    
+    value_limit: 1
+    
+    clip_norm: True
+    
+    clamp_values: False
+
+model:
+  dqn:
+    dueling:
+      enabled: True
+      aggregation:
+        mean: True
+        max: False
+    double: True
+    hidden_sizes:
+      - 128
+      - 128
+    nonlinearity:
+      relu: False
+      tanh: True
+  entire_gnn:
+    embedding_size: 4
+    hidden_size: 8
+    pos_size: 3
+    dropout: !!float 0.2
+    nonlinearity:
+      relu: True
+      tanh: False
+  multi_gnn:
+    cnn_encoder:
+      conv:
+        kernel_size: 3
+        stride: 1
+        padding: 1
+      pool:
+        kernel_size: 2
+        stride: 2
+        padding: 0
+      hidden_channels:
+        - 32
+        - 32
+        - 64
+        - 64
+      output_channels: 128
+    mlp_compression:
+      hidden_sizes: []
+      output_size: 128
+    gnn_communication:
+      hidden_sizes:
+        - 128
+      embedding_size: 128
+      dropout: !!float 0.2
+    nonlinearity:
+      relu: True
+      tanh: False
+
+replay_buffer:
+  size: 100000
+  batch_size: 128
+  checkpoint: 4
+  load: ""
+  save: False
+
+generic:
+  num_threads: 1
+  fix_random: True
+  random_seed: 1
+  use_gpu: False
+  enable_wandb: True
+  wandb_checkpoint: 500
+  wandb_gradients:
+    enabled: False
+    checkpoint: 200
+
+training:
+  checkpoint: 500
+
+  train_env:
+    load: ""
+    episodes: 7500
+    all_random: True
+
+  eval_env:
+    load: ""
+    episodes: 20
+    all_random: True
+
+  renderer:
+    training: False
+    train_checkpoint: 1
+    evaluation: False
+    eval_checkpoint: 5
+    save_frames: False
+
+testing:
+  episodes: 500
+  load: ""
+  model: ""
+  verbose: True
+  renderer:
+    enabled: True
+    sleep: 2
+    save_frames: True
